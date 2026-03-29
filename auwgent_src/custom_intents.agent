@@ -1,0 +1,13 @@
+export intent Planing{
+    description: "when asked a complex/research question use this to lay out your approach in solving it"
+    fields {
+        planing:string
+    }
+}
+
+export intent Dialogue{
+    description: "when asked complex question it good to have conversation with the user to understand the context and requirements"
+    fields {
+        question:string
+    }
+}@example(question = "please before i proceed i will like to ask few questions to understand the context...")

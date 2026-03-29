@@ -1,0 +1,33 @@
+import {Planing, Dialogue} from "./custom_intents"
+import {MainPrompt} from "./prompt"
+
+agent MainAgent{
+    default config {
+        model:custom("my-groq-api", "https://api.groq.com/openai/v1/chat/completions", "openai/gpt-oss-120b")
+        prompt: MainPrompt(ctx.user_name,ctx.has_todos,ctx.todo_id,ctx.todos_left)
+    }
+
+    context {
+        user_name:string,
+        has_todos:boolean,
+        todo_id:string,
+        todos_left:number
+    }
+
+    intent:Planing + Dialogue
+
+    tool search_web(query:string):string
+        @desc "use this tool to search the web for information"
+
+    tool create_todo(id:string @desc "should be descriptive", tasks:string[]):string[]
+        @desc "use this tool to create todos you will use to solve the problem"
+        @example(id="understanding the reasoning of humans", tasks=["list of the steps you will take"])
+
+    tool read_todo(id:string @desc "a valid todo id"):string[]
+        @desc "use this tool to read a todo"
+        @example(id="understanding the reasoning of humans")
+
+    tool delete_todo(id:string @desc "a valid todo id", target_task?:string @desc "specific todo in the list", main?:boolean @desc "to delete the main todo"):boolean
+        @desc "use this tool to delete a todo"
+        @example(id="understanding the reasoning of humans", target="index:1")
+}

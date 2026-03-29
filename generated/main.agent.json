@@ -1,0 +1,233 @@
+{
+  "name": "MainAgent",
+  "modelConfig": [
+    {
+      "defaultConfig": {
+        "model": {
+          "type": "custom",
+          "id": "my-groq-api",
+          "url": "https://api.groq.com/openai/v1/chat/completions",
+          "modelName": "openai/gpt-oss-120b",
+          "config": null
+        },
+        "embedding": null,
+        "prompt": {
+          "type": "promptRef",
+          "name": "MainPrompt",
+          "params": [
+            "user_name",
+            "has_todos",
+            "todo_id",
+            "todos_left"
+          ],
+          "args": [
+            {
+              "type": "contextRef",
+              "property": "user_name"
+            },
+            {
+              "type": "contextRef",
+              "property": "has_todos"
+            },
+            {
+              "type": "contextRef",
+              "property": "todo_id"
+            },
+            {
+              "type": "contextRef",
+              "property": "todos_left"
+            }
+          ],
+          "value": [
+            {
+              "type": "template",
+              "value": [
+                {
+                  "type": "literal",
+                  "value": "\r\n    You are a research agent. Your task is to understand the user's queries\r\n    Ask questions using the Dialogue intents if unclear or needs more context\r\n    Use Planning intents to layout your plans on how you would solve the problem\r\n    Use the todo tools to create, delete or view todos\r\n    Use the search tool to carry out web search of different queries\r\n\r\n    Always use the appropriate tools\r\n    Remember to update the todo when a task or a todo is done\r\n    Be smart and also precise when the question is simple\r\n\r\n    user's name : "
+                },
+                {
+                  "type": "varRef",
+                  "value": "user_name"
+                },
+                {
+                  "type": "literal",
+                  "value": "\r\n\r\n    "
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "namedConfig": []
+    }
+  ],
+  "input": null,
+  "output": null,
+  "context": {
+    "user_name": {
+      "type": "string",
+      "optional": false
+    },
+    "has_todos": {
+      "type": "boolean",
+      "optional": false
+    },
+    "todo_id": {
+      "type": "string",
+      "optional": false
+    },
+    "todos_left": {
+      "type": "number",
+      "optional": false
+    }
+  },
+  "tools": [
+    {
+      "name": "search_web",
+      "description": "use this tool to search the web for information",
+      "params": {
+        "query": {
+          "type": "string",
+          "optional": false
+        }
+      },
+      "returns": "string",
+      "examples": []
+    },
+    {
+      "name": "create_todo",
+      "description": "use this tool to create todos you will use to solve the problem",
+      "params": {
+        "id": {
+          "type": "string",
+          "optional": false,
+          "description": "should be descriptive"
+        },
+        "tasks": {
+          "type": {
+            "type": "array",
+            "items": "string"
+          },
+          "optional": false
+        }
+      },
+      "returns": {
+        "type": "array",
+        "items": "string"
+      },
+      "examples": [
+        {
+          "id": {
+            "type": "literal",
+            "value": "understanding the reasoning of humans"
+          },
+          "tasks": {
+            "type": "array",
+            "value": [
+              {
+                "type": "literal",
+                "value": "list of the steps you will take"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "read_todo",
+      "description": "use this tool to read a todo",
+      "params": {
+        "id": {
+          "type": "string",
+          "optional": false,
+          "description": "a valid todo id"
+        }
+      },
+      "returns": {
+        "type": "array",
+        "items": "string"
+      },
+      "examples": [
+        {
+          "id": {
+            "type": "literal",
+            "value": "understanding the reasoning of humans"
+          }
+        }
+      ]
+    },
+    {
+      "name": "delete_todo",
+      "description": "use this tool to delete a todo",
+      "params": {
+        "id": {
+          "type": "string",
+          "optional": false,
+          "description": "a valid todo id"
+        },
+        "target_task": {
+          "type": "string",
+          "optional": true,
+          "description": "specific todo in the list"
+        },
+        "main": {
+          "type": "boolean",
+          "optional": true,
+          "description": "to delete the main todo"
+        }
+      },
+      "returns": "boolean",
+      "examples": [
+        {
+          "id": {
+            "type": "literal",
+            "value": "understanding the reasoning of humans"
+          },
+          "target": {
+            "type": "literal",
+            "value": "index:1"
+          }
+        }
+      ]
+    }
+  ],
+  "workflows": [],
+  "helpers": [],
+  "types": null,
+  "helperToolGrants": null,
+  "helperHandoff": null,
+  "tests": [],
+  "lifecycle": null,
+  "customIntents": [
+    {
+      "name": "Planing",
+      "description": "when asked a complex/research question use this to lay out your approach in solving it",
+      "fields": {
+        "planing": {
+          "type": "string",
+          "optional": false
+        }
+      },
+      "examples": []
+    },
+    {
+      "name": "Dialogue",
+      "description": "when asked complex question it good to have conversation with the user to understand the context and requirements",
+      "fields": {
+        "question": {
+          "type": "string",
+          "optional": false
+        }
+      },
+      "examples": [
+        {
+          "question": {
+            "type": "literal",
+            "value": "please before i proceed i will like to ask few questions to understand the context..."
+          }
+        }
+      ]
+    }
+  ]
+}

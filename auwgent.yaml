@@ -1,0 +1,4 @@
+source: "auwgent_src"
+output: "generated"
+targets:
+  - py
