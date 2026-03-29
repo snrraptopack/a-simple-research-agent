@@ -17,9 +17,6 @@ load_dotenv()
 
 context:MainAgentContext = {
     'user_name': "Theophilus",
-    'has_todos': has_todos,
-    'todo_id': todo_ids,
-    'todos_left': todo_left
 }
 
 agent = auwgent({

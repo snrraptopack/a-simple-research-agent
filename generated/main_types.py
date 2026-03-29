@@ -26,9 +26,6 @@ class MainAgentOutput(TypedDict, total=False):
 
 class MainAgentContext(TypedDict, total=False):
     user_name: str
-    has_todos: bool
-    todo_id: str
-    todos_left: float
 
 class MainAgentTools(TypedDict, total=False):
     # use this tool to search the web for information

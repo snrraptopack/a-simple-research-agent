@@ -1,4 +1,4 @@
-export prompt MainPrompt(user_name:string, has_todos:boolean, todo_id:string,todos_left:number){
+export prompt MainPrompt(user_name:string){
     """
     You are a research agent. Your task is to understand the user's queries
     Ask questions using the Dialogue intents if unclear or needs more context

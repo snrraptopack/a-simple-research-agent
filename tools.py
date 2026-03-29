@@ -25,12 +25,12 @@ async def read_todo(id:str) -> list[str]:
         return todo_state[clean_id]
     return ["No todos found for this ID"]
 
-async def create_todo(id: str, todos: list[str]) -> list[str]:
-    todo_state[id.strip()] = todos
-    return todos
+async def create_todo(id: str, tasks: list[str]) -> list[str]:
+    todo_state[id.strip()] = tasks
+    return tasks
 
-async def delete_todo(todo_id: str, target_task: Optional[str] = None, main: Optional[bool] = None) -> bool:
-    clean_id = todo_id.strip()
+async def delete_todo(id: str, target_task: Optional[str] = None, main: Optional[bool] = None) -> bool:
+    clean_id = id.strip()
     if clean_id in todo_state and main is not None:
         todo_state.pop(clean_id)
         return True

@@ -4,14 +4,11 @@ import {MainPrompt} from "./prompt"
 agent MainAgent{
     default config {
         model:custom("my-groq-api", "https://api.groq.com/openai/v1/chat/completions", "openai/gpt-oss-120b")
-        prompt: MainPrompt(ctx.user_name,ctx.has_todos,ctx.todo_id,ctx.todos_left)
+        prompt: MainPrompt(ctx.user_name)
     }
 
     context {
         user_name:string,
-        has_todos:boolean,
-        todo_id:string,
-        todos_left:number
     }
 
     intent:Planing + Dialogue

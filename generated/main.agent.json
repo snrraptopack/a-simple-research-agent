@@ -15,27 +15,12 @@
           "type": "promptRef",
           "name": "MainPrompt",
           "params": [
-            "user_name",
-            "has_todos",
-            "todo_id",
-            "todos_left"
+            "user_name"
           ],
           "args": [
             {
               "type": "contextRef",
               "property": "user_name"
-            },
-            {
-              "type": "contextRef",
-              "property": "has_todos"
-            },
-            {
-              "type": "contextRef",
-              "property": "todo_id"
-            },
-            {
-              "type": "contextRef",
-              "property": "todos_left"
             }
           ],
           "value": [
@@ -67,18 +52,6 @@
   "context": {
     "user_name": {
       "type": "string",
-      "optional": false
-    },
-    "has_todos": {
-      "type": "boolean",
-      "optional": false
-    },
-    "todo_id": {
-      "type": "string",
-      "optional": false
-    },
-    "todos_left": {
-      "type": "number",
       "optional": false
     }
   },
